@@ -1,6 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
+import { Icon } from '@iconify/react';
 
 export function ThemeToggle() {
   const { setTheme, resolvedTheme } = useTheme();
@@ -14,9 +15,11 @@ export function ThemeToggle() {
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      <span suppressHydrationWarning className="text-lg transition-transform duration-300 hover:scale-110">
-        {isDark ? '☀️' : '🌙'}
-      </span>
+      <Icon 
+        suppressHydrationWarning 
+        icon={isDark ? 'mdi:white-balance-sunny' : 'mdi:moon-waning-crescent'} 
+        className="text-lg transition-transform duration-300 hover:scale-110"
+      />
     </button>
   );
 }

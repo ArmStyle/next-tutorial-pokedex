@@ -47,7 +47,7 @@ export default function HomePage() {
       <div className="max-w-7xl mx-auto">
         {/* ── Hero + Search ── */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-black bg-linear-to-r from-red-500 via-yellow-500 to-blue-600 bg-clip-text text-transparent mb-3 tracking-tight">
+          <h1 className="text-5xl md:text-6xl font-black bg-linear-to-r from-red-500 via-rose-500 to-indigo-600 bg-clip-text text-transparent mb-3 tracking-tight">
             Pokédex
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mb-8">
