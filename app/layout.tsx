@@ -3,6 +3,7 @@ import Link from 'next/link';
 import './globals.css';
 import { ThemeProvider } from './components/ThemeProvider';
 import { ThemeToggle } from './components/ThemeToggle';
+import StoreProvider from './store/StoreProvider';
 
 export const metadata: Metadata = {
   title: 'Pokédex - Explore all Pokémon',
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider>
+          <StoreProvider>
           <div className="bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col">
 
             {/* ── Navbar ── */}
@@ -115,6 +117,7 @@ export default function RootLayout({
             </footer>
 
           </div>
+          </StoreProvider>
         </ThemeProvider>
       </body>
     </html>
