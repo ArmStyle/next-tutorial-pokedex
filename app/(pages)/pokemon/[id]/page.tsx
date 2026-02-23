@@ -17,6 +17,9 @@ import HeroBanner from "@/app/components/detail/HeroBanner";
 import AbilityList from "@/app/components/detail/AbilityList";
 import StatsList from "@/app/components/detail/StatsList";
 import EvolutionChain from "@/app/components/detail/EvolutionChain";
+import Moveset from "@/app/components/detail/Moveset";
+import Cries from "@/app/components/detail/Cries";
+import SpriteVariants from "@/app/components/detail/SpriteVariants";
 
 export default function PokemonDetailPage() {
   const params = useParams();
@@ -107,8 +110,25 @@ export default function PokemonDetailPage() {
           </div>
         </div>
 
-        {/* ── Evolution Chain ── */}
-        <EvolutionChain chain={evolutionChain} currentPokemonName={name} />
+        {/* ── Evolution Chain + Sprite Variants row ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          <div className="lg:col-span-2 flex">
+            <EvolutionChain chain={evolutionChain} currentPokemonName={name} />
+          </div>
+          <div className="lg:col-span-3 flex">
+            <SpriteVariants pokemon={pokemon} />
+          </div>
+        </div>
+
+        {/* ── Moveset + Cries row ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="flex">
+            <Moveset pokemon={pokemon} />
+          </div>
+          <div className="flex">
+            <Cries pokemon={pokemon} />
+          </div>
+        </div>
       </div>
     </div>
   );

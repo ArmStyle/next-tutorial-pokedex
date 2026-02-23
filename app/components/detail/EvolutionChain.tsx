@@ -136,7 +136,7 @@ function EvolutionNodeComponent({
 export default function EvolutionChain({ chain, currentPokemonName }: Props) {
   if (!chain) {
     return (
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-md border border-slate-200 dark:border-slate-700">
+      <div className="w-full bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-md border border-slate-200 dark:border-slate-700">
         <div className="text-center text-slate-500 dark:text-slate-400">
           No evolution chain available
         </div>
@@ -145,7 +145,7 @@ export default function EvolutionChain({ chain, currentPokemonName }: Props) {
   }
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-md border border-slate-200 dark:border-slate-700">
+    <div className="w-full bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-md border border-slate-200 dark:border-slate-700">
       {/* Header */}
       <h2 className="text-sm font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-8">
         Evolution Chain
