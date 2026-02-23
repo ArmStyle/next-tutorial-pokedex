@@ -22,7 +22,7 @@ export default function PokemonCard({ pokemon: p }: Props) {
         overflow-hidden h-full
       ">
         {/* Artwork */}
-        <div className="bg-slate-100 dark:bg-slate-700 h-44 flex items-center justify-center">
+        <div className="bg-white dark:bg-slate-700 h-44 flex items-center justify-center">
           <Image
             src={`${ARTWORK_BASE}/${p.id}.png`}
             alt={p.name}

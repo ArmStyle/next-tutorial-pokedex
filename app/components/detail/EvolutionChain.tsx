@@ -68,7 +68,7 @@ function EvolutionNodeComponent({
         className={`group relative flex flex-col items-center gap-3 p-4 rounded-2xl transition-all duration-300 ${
           isCurrent
             ? 'bg-blue-100 dark:bg-blue-900 ring-2 ring-blue-500'
-            : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700'
+            : 'bg-white dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700'
         }`}
       >
         {/* Image */}
