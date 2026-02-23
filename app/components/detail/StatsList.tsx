@@ -11,19 +11,19 @@ export default function StatsList({ stats }: Props) {
   const total = stats.reduce((sum, s) => sum + s.base_stat, 0);
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 p-7">
+    <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 p-7 w-full flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
-        <h2 className="text-xs font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+        <h2 className="text-sm font-extrabold uppercase tracking-widest text-slate-700 dark:text-slate-300">
           Base Stats
         </h2>
-        <span className="text-xs font-extrabold bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 px-3 py-1 rounded-full">
+        <span className="text-xs font-extrabold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-3 py-1 rounded-full">
           Total {total}
         </span>
       </div>
 
       {/* Stat rows */}
-      <div className="space-y-3.5">
+      <div className="space-y-3.5 flex-1 flex flex-col justify-center">
         {stats.map((stat, i) => {
           const pct = Math.min((stat.base_stat / MAX_STAT) * 100, 100);
           const label = STAT_LABELS[stat.stat.name] ?? stat.stat.name;

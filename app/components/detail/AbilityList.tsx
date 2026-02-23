@@ -10,12 +10,12 @@ export default function AbilityList({ abilities, primaryType }: Props) {
   const typeColor = TYPE_COLORS[primaryType] ?? TYPE_COLORS.normal;
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 p-7">
-      <h2 className="text-xs font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-5">
+    <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 p-7 w-full flex flex-col">
+      <h2 className="text-sm font-extrabold uppercase tracking-widest text-slate-700 dark:text-slate-300 mb-5">
         Abilities
       </h2>
 
-      <div className="space-y-3">
+      <div className="space-y-3 flex-1">
         {abilities.map((a, i) => (
           <div
             key={i}

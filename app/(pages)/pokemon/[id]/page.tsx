@@ -9,9 +9,14 @@ import {
   selectDetailLoading,
   selectDetailError,
 } from "@/app/store/slices/pokemonDetailSlice";
+import {
+  fetchEvolutionChain,
+  selectEvolutionChain,
+} from "@/app/store/slices/evolutionChainSlice";
 import HeroBanner from "@/app/components/detail/HeroBanner";
 import AbilityList from "@/app/components/detail/AbilityList";
 import StatsList from "@/app/components/detail/StatsList";
+import EvolutionChain from "@/app/components/detail/EvolutionChain";
 
 export default function PokemonDetailPage() {
   const params = useParams();
@@ -23,10 +28,18 @@ export default function PokemonDetailPage() {
   const pokemon = useAppSelector(selectPokemonDetail(name));
   const loading = useAppSelector(selectDetailLoading);
   const error = useAppSelector(selectDetailError);
+  const evolutionChain = useAppSelector(selectEvolutionChain);
 
   useEffect(() => {
     if (name) dispatch(fetchPokemonDetail(name)); // no-op if already cached
   }, [name, dispatch]);
+
+  // Fetch evolution chain when Pokemon detail is loaded
+  useEffect(() => {
+    if (pokemon?.name) {
+      dispatch(fetchEvolutionChain(pokemon.name));
+    }
+  }, [pokemon?.name, dispatch]);
 
   /* ── Loading ── */
   if (loading && !pokemon) {
@@ -83,16 +96,19 @@ export default function PokemonDetailPage() {
 
         {/* ── Abilities + Stats row ── */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 flex">
             <AbilityList
               abilities={pokemon.abilities}
               primaryType={primaryType}
             />
           </div>
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 flex">
             <StatsList stats={pokemon.stats} />
           </div>
         </div>
+
+        {/* ── Evolution Chain ── */}
+        <EvolutionChain chain={evolutionChain} currentPokemonName={name} />
       </div>
     </div>
   );

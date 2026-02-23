@@ -3,13 +3,17 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { configureStore } from '@reduxjs/toolkit';
-import pokemonListReducer   from '@/app/store/slices/pokemonListSlice';
-import pokemonDetailReducer from '@/app/store/slices/pokemonDetailSlice';
+import pokemonListReducer     from '@/app/store/slices/pokemonListSlice';
+import pokemonDetailReducer   from '@/app/store/slices/pokemonDetailSlice';
+import generationFilterReducer from '@/app/store/slices/generationFilterSlice';
+import evolutionChainReducer   from '@/app/store/slices/evolutionChainSlice';
 
 export const store = configureStore({
   reducer: {
-    pokemonList:   pokemonListReducer,
-    pokemonDetail: pokemonDetailReducer,
+    pokemonList:      pokemonListReducer,
+    pokemonDetail:    pokemonDetailReducer,
+    generationFilter: generationFilterReducer,
+    evolutionChain:   evolutionChainReducer,
   },
 });
 

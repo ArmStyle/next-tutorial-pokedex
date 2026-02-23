@@ -13,7 +13,7 @@ export default function PokemonCard({ pokemon: p }: Props) {
   return (
     <Link href={`/pokemon/${p.name}`} className="group">
       <div className="
-        bg-white dark:bg-slate-800
+        bg-white dark:bg-slate-700
         rounded-2xl border-2 border-gray-100 dark:border-slate-700
         shadow-md hover:shadow-xl
         hover:border-blue-300 dark:hover:border-blue-500

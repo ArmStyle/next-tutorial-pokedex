@@ -3,12 +3,20 @@
 import { useEffect } from "react";
 import PokemonCard from "@/app/components/PokemonCard";
 import SearchBar from "@/app/components/SearchBar";
+import GenerationFilter from "@/app/components/GenerationFilter";
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import {
   fetchAllPokemon,
   fetchPokemonPage,
   loadNextPage,
 } from "@/app/store/slices/pokemonListSlice";
+import {
+  selectSelectedGeneration,
+  selectGenerationPokemon,
+  selectGenerationLoading,
+  selectSelectedRegion,
+} from "@/app/store/slices/generationFilterSlice";
+import { toRomanNumeral } from "@/app/lib/roman";
 
 function LoadingSpinner() {
   return (
@@ -32,15 +40,27 @@ export default function HomePage() {
   const hasMore = useAppSelector((s) => s.pokemonList.hasMore);
   const loading = useAppSelector((s) => s.pokemonList.loadingPage);
 
+  // Generation filter selectors
+  const selectedGeneration = useAppSelector(selectSelectedGeneration);
+  const generationPokemon = useAppSelector(selectGenerationPokemon);
+  const generationLoading = useAppSelector(selectGenerationLoading);
+  const selectedRegion = useAppSelector(selectSelectedRegion);
+
+  // Show filtered Pokemon if generation is selected, otherwise show paginated list
+  const displayPokemon = selectedGeneration ? generationPokemon : page;
+  const isLoading = selectedGeneration ? generationLoading : loading;
+
   // Fetch full list once for SearchBar suggestions
   useEffect(() => {
     if (!allLoaded) dispatch(fetchAllPokemon());
   }, [allLoaded, dispatch]);
 
-  // Fetch a page whenever offset changes
+  // Fetch a page whenever offset changes (only if not filtered by generation)
   useEffect(() => {
-    dispatch(fetchPokemonPage(offset));
-  }, [offset, dispatch]);
+    if (!selectedGeneration) {
+      dispatch(fetchPokemonPage(offset));
+    }
+  }, [offset, dispatch, selectedGeneration]);
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -58,30 +78,33 @@ export default function HomePage() {
           <SearchBar allPokemon={allPokemon} />
         </div>
 
+        {/* ── Generation Filter ── */}
+        <GenerationFilter />
+
         {/* ── Pokémon Grid ── */}
-        {loading && page.length === 0 ? (
+        {isLoading && displayPokemon.length === 0 ? (
           <LoadingSpinner />
         ) : (
           <>
             {/* List header */}
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-sm font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-widest">
-                All Pokémon
+                {selectedGeneration ? `Pokémon Generation ${toRomanNumeral(selectedGeneration)} ${selectedRegion ? ` (${selectedRegion})` : ''}` : 'All Pokémon'}
               </h2>
               <span className="text-xs font-bold text-slate-400 dark:text-slate-500 bg-slate-200 dark:bg-slate-700 px-3 py-1 rounded-full">
-                {page.length} shown
+                {displayPokemon.length} shown
               </span>
             </div>
 
             {/* Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 mb-10">
-              {page.map((p) => (
+              {displayPokemon.map((p) => (
                 <PokemonCard key={p.id} pokemon={p} />
               ))}
             </div>
 
-            {/* Load more */}
-            {hasMore && (
+            {/* Load more - only show when not filtered by generation */}
+            {!selectedGeneration && hasMore && (
               <div className="flex justify-center">
                 <button
                   onClick={() => dispatch(loadNextPage())}
