@@ -1,11 +1,5 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// pokemonDetailSlice
-//
-// Caches full Pokémon detail objects keyed by name/id.
-// A Pokémon is only fetched from the API once; subsequent visits are instant.
-// ─────────────────────────────────────────────────────────────────────────────
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import apiClient from '@/app/lib/apiClient';
 import type { RootState } from '../store';
 import type { PokemonDetail } from '@/app/types/pokemon';
 
@@ -14,9 +8,8 @@ import type { PokemonDetail } from '@/app/types/pokemon';
 export const fetchPokemonDetail = createAsyncThunk(
   'pokemonDetail/fetch',
   async (name: string) => {
-    const res = await fetch(`/api/pokemon/${name}`);
-    if (!res.ok) throw new Error(`Failed to fetch ${name}`);
-    return (await res.json()) as PokemonDetail;
+    const response = await apiClient.get<PokemonDetail>(`/pokemon/${name}`);
+    return response.data;
   },
   {
     // Skip the network call if this Pokémon is already in the cache

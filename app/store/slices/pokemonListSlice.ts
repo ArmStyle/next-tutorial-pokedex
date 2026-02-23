@@ -7,6 +7,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import apiClient from '@/app/lib/apiClient';
 import type { Pokemon } from '@/app/types/pokemon';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -27,10 +28,8 @@ function withId(list: Pokemon[]): Pokemon[] {
 export const fetchAllPokemon = createAsyncThunk(
   'pokemonList/fetchAll',
   async () => {
-    const res = await fetch('/api/pokemon?limit=1500&offset=0');
-    if (!res.ok) throw new Error('Failed to fetch all Pokémon');
-    const data = await res.json();
-    return withId(data.results as Pokemon[]);
+    const response = await apiClient.get<{ results: Pokemon[] }>('/pokemon?limit=1500&offset=0');
+    return withId(response.data.results);
   },
 );
 
@@ -38,12 +37,12 @@ export const fetchAllPokemon = createAsyncThunk(
 export const fetchPokemonPage = createAsyncThunk(
   'pokemonList/fetchPage',
   async (offset: number) => {
-    const res = await fetch(`/api/pokemon?limit=${PAGE_SIZE}&offset=${offset}`);
-    if (!res.ok) throw new Error('Failed to fetch Pokémon page');
-    const data = await res.json();
+    const response = await apiClient.get<{ results: Pokemon[]; next: string | null }>(
+      `/pokemon?limit=${PAGE_SIZE}&offset=${offset}`
+    );
     return {
-      results: withId(data.results as Pokemon[]),
-      hasMore: data.next !== null,
+      results: withId(response.data.results),
+      hasMore: response.data.next !== null,
       offset,
     };
   },

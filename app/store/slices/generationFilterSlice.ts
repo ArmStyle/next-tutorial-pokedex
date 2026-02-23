@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import apiClient from '@/app/lib/apiClient';
 import type { RootState } from '../store';
 import type { Pokemon } from '@/app/types/pokemon';
 
@@ -17,12 +18,15 @@ function withId(list: Pokemon[]): Pokemon[] {
 export const fetchPokemonByGeneration = createAsyncThunk(
   'generationFilter/fetch',
   async (generation: number) => {
-    const res = await fetch(`/api/pokemon/by-generation/${generation}`);
-    if (!res.ok) throw new Error(`Failed to fetch generation ${generation}`);
-    const data = await res.json();
+    const response = await apiClient.get<{
+      generation: number;
+      name: string;
+      pokemon_count: number;
+      results: Pokemon[];
+    }>(`/pokemon/by-generation/${generation}`);
     return {
-      ...data,
-      results: withId(data.results as Pokemon[]),
+      ...response.data,
+      results: withId(response.data.results),
     };
   }
 );

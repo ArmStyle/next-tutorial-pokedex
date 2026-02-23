@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import apiClient from '@/app/lib/apiClient';
 import type { RootState } from '../store';
 
 // ── Types ───────────────────────────────────────────────────────────────────
@@ -55,9 +56,11 @@ export interface EvolutionChainState {
 export const fetchEvolutionChain = createAsyncThunk(
   'evolutionChain/fetch',
   async (pokemonName: string) => {
-    const res = await fetch(`/api/pokemon/evolution-chain/${pokemonName}`);
-    if (!res.ok) throw new Error(`Failed to fetch evolution chain for ${pokemonName}`);
-    return await res.json();
+    const response = await apiClient.get<{
+      id: number;
+      evolution_chain: EvolutionNode;
+    }>(`/pokemon/evolution-chain/${pokemonName}`);
+    return response.data;
   },
   {
     // Skip if already in cache
